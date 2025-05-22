@@ -13,245 +13,407 @@
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+      color: #222;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding: 30px 20px;
+      position: relative;
     }
+
+    /* Page title */
     h1 {
-      margin-bottom: 20px;
-      color: #de4313;
-    }
-    /* Grid container */
-    .accounts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-      gap: 25px;
-      width: 100%;
-      max-width: 900px;
-    }
-    /* Card */
-    .account-card {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 6px 12px rgba(222,67,19,0.15);
-      padding: 15px;
+      margin-bottom: 30px;
+      color: hsl(236, 69%, 59%);
+      font-weight: 900;
+      font-size: 3rem;
+      text-shadow: 2px 2px 4px rgba(59,63,114,0.4);
+      letter-spacing: 2px;
       text-align: center;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    /* Top scrollable accounts container */
+    .scrollable-accounts-wrapper {
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 50px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #000000 #e0e7ff;
+    }
+    .scrollable-accounts {
+      display: grid;
+      grid-template-columns: repeat(8, 180px);
+      /* 4 cols x 2 rows = 8 visible accounts horizontally scroll */
+      grid-auto-rows: 220px;
+      gap: 20px;
+    }
+    .scrollable-accounts::-webkit-scrollbar {
+      height: 8px;
+    }
+    .scrollable-accounts::-webkit-scrollbar-track {
+      background: #e0e7ff;
+      border-radius: 10px;
+    }
+    .scrollable-accounts::-webkit-scrollbar-thumb {
+      background: #5c5fc9;
+      border-radius: 10px;
+    }
+
+    /* Card style in scrollable */
+    .scroll-account-item {
+      background: #ffffffcc;
+      border-radius: 24px;
+      box-shadow: 0 12px 25px rgba(59,63,114,0.12);
+      padding: 16px 14px;
+      text-align: center;
       cursor: default;
       user-select: none;
+      backdrop-filter: saturate(180%) blur(10px);
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
     }
-    .account-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 30px rgba(222,67,19,0.3);
+    .scroll-account-item:hover {
+      box-shadow: 0 18px 40px rgba(59,63,114,0.25);
+      border-color: #5c5fc9;
     }
-    /* The clickable photo */
-    .account-photo {
-      width: 140px;
-      height: 140px;
+    .scroll-account-photo {
+      width: 130px;
+      height: 130px;
       border-radius: 20px;
       object-fit: cover;
-      margin: 0 auto 12px;
-      box-shadow: 0 4px 10px rgba(222,67,19,0.2);
-      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(95,95,201,0.25);
+      margin-bottom: 14px;
       transition: box-shadow 0.3s ease;
     }
-    .account-photo:hover {
-      box-shadow: 0 8px 22px rgba(222,67,19,0.5);
+    .scroll-account-photo:hover {
+      box-shadow: 0 12px 30px rgba(92,95,201,0.55);
     }
-    /* Account name */
-    .account-name {
+    .scroll-account-name {
       font-size: 1.1rem;
-      font-weight: 600;
-      color: #de4313;
-      margin-bottom: 6px;
+      font-weight: 700;
+      color: #43478f;
+      margin-bottom: 8px;
+      text-shadow: 1px 1px 2px rgba(92,95,201,0.25);
     }
-    /* Account link */
-    .account-link {
+    .scroll-account-link {
       font-size: 0.9rem;
-      color: #555;
+      color: #6067a8;
       text-decoration: none;
       word-break: break-word;
-      display: inline-block;
-      max-width: 180px;
+      max-width: 170px;
+      transition: color 0.3s ease;
     }
-    .account-link:hover {
-      color: #de4313;
+    .scroll-account-link:hover {
+      color: #5c5fc9;
       text-decoration: underline;
     }
+
+    /* Bottom 4x4 grid accounts container */
+    .bottom-account-list-section {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 1000px;
+      background: #fefeff;
+      border-radius: 28px;
+      padding: 10px 4px;
+      box-shadow: 0 15px 30px rgba(59,63,114,0.15);
+    }
+    .bottom-account-list-section h3 {
+      font-size: 2rem;
+      color: #43478f;
+      margin-bottom: 30px;
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .bottom-account-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      justify-items: center;
+    }
+    .bottom-account-item {
+      width: 230px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 14px 30px rgba(59,63,114,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 22px 26px;
+      user-select: none;
+      transition: box-shadow 0.4s ease, transform 0.3s ease;
+      cursor: default;
+    }
+    .bottom-account-item:hover {
+      box-shadow: 0 24px 50px rgba(59,63,114,0.25);
+      transform: translateY(-8px);
+    }
+    .bottom-account-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 20px;
+      object-fit: cover;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 25px rgba(92,95,201,0.3);
+      transition: box-shadow 0.3s ease;
+    }
+    .bottom-account-photo:hover {
+      box-shadow: 0 16px 40px rgba(92,95,201,0.6);
+    }
+    .bottom-account-name {
+      font-weight: 900;
+      font-size: 1.25rem;
+      color: #3b3f72;
+      margin-bottom: 10px;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .bottom-account-link {
+      font-size: 1rem;
+      color: #6067a8;
+      text-decoration: none;
+      word-break: break-word;
+      text-align: center;
+      display: inline-block;
+      max-width: 190px;
+      transition: color 0.3s ease;
+    }
+    .bottom-account-link:hover {
+      color: #5c5fc9;
+      text-decoration: underline;
+    }
+
+    /* Fixed contact box bottom right */
+    .contact-fixed-box {
+      position: fixed;
+      bottom: 25px;
+      right: 10px;
+      background: #5c5fc9;
+      color: white;
+      padding: 18px 20px;
+      border-radius: 40px;
+      box-shadow: 0 8px 25px rgba(92,95,201,0.5);
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1.3;
+      text-align: center;
+      max-width: 2240px;
+      cursor: default;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      z-index: 1200;
+    }
+    .contact-fixed-box a {
+      color: #f5f1f2;
+      font-weight: 800;
+      text-decoration: underline;
+      display: block;
+      margin-top: 6px;
+      font-size: 1rem;
+    }
+    .contact-fixed-box:hover {
+      background-color: #43478f;
+    }
+
     /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.5);
+      background: rgba(15, 15, 40, 0.85);
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
-      padding: 20px;
+      z-index: 1100;
+      padding: 25px;
+      backdrop-filter: blur(8px);
     }
     .modal-overlay.active {
       display: flex;
     }
     .modal-content {
-      background: white;
-      border-radius: 18px;
-      max-width: 480px;
+      background: #fff;
+      border-radius: 24px;
+      max-width: 530px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 15px 40px rgba(222,67,19,0.4);
-      padding: 30px 25px;
+      box-shadow: 0 20px 50px rgba(59,63,114,0.35);
+      padding: 40px 35px 35px;
       position: relative;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .modal-close {
       position: absolute;
-      top: 12px;
-      right: 15px;
+      top: 15px;
+      right: 20px;
       background: transparent;
       border: none;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #de4313;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #43478f;
       cursor: pointer;
       user-select: none;
-      transition: color 0.2s ease;
+      transition: color 0.25s ease;
     }
     .modal-close:hover {
-      color: #ff6f61;
+      color: #5c5fc9;
     }
     .modal-title {
-      font-size: 1.7rem;
-      margin-bottom: 15px;
-      font-weight: 700;
-      color: #de4313;
+      font-size: 2rem;
+      margin-bottom: 22px;
+      font-weight: 900;
+      color: #43478f;
       text-align: center;
+      letter-spacing: 1.5px;
     }
+
     .contact-section {
-      margin-bottom: 25px;
-      font-size: 1rem;
-      color: #444;
-      line-height: 1.5;
+      margin-bottom: 32px;
+      font-size: 1.1rem;
+      color: #555977;
+      line-height: 1.65;
       text-align: center;
     }
     .contact-section a {
-      color: #de4313;
+      color: #5c5fc9;
       text-decoration: none;
       font-weight: 600;
     }
     .contact-section a:hover {
       text-decoration: underline;
     }
+
     /* Accounts list inside modal */
     .modal-accounts-list {
-      max-height: 320px;
+      max-height: 340px;
       overflow-y: auto;
-      border-top: 1px solid #eee;
-      padding-top: 15px;
+      border-top: 1px solid #e2e4f2;
+      padding-top: 20px;
     }
     .modal-accounts-list h4 {
-      margin-bottom: 12px;
-      font-size: 1.2rem;
-      color: #de4313;
+      margin-bottom: 16px;
+      font-size: 1.35rem;
+      color: #43478f;
       text-align: left;
       font-weight: 700;
+      letter-spacing: 0.03em;
     }
     .modal-account-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
+      gap: 14px;
+      margin-bottom: 16px;
       cursor: default;
     }
     .modal-account-photo {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
+      width: 55px;
+      height: 55px;
+      border-radius: 14px;
       object-fit: cover;
-      box-shadow: 0 3px 8px rgba(222,67,19,0.25);
+      box-shadow: 0 4px 10px rgba(92,95,201,0.25);
     }
     .modal-account-info {
       flex-grow: 1;
       text-align: left;
       font-size: 1rem;
-      color: #555;
+      color: #61659c;
     }
     .modal-account-info a {
-      font-weight: 600;
-      color: #de4313;
+      font-weight: 700;
+      color: #5c5fc9;
       text-decoration: none;
       word-break: break-word;
+      transition: color 0.3s ease;
     }
     .modal-account-info a:hover {
+      color: #43478f;
       text-decoration: underline;
     }
 
     /* Scrollbar styling */
     .modal-accounts-list::-webkit-scrollbar {
-      width: 8px;
+      width: 9px;
     }
     .modal-accounts-list::-webkit-scrollbar-thumb {
-      background-color: #de4313aa;
-      border-radius: 4px;
+      background-color: #5c5fc9aa;
+      border-radius: 5px;
     }
     .modal-accounts-list::-webkit-scrollbar-track {
-      background: #f0f2f5;
+      background: #f5f6ff;
     }
 
     /* Responsive */
-    @media(max-width: 520px) {
-      .accounts-grid {
-        grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+    @media (max-width: 900px) {
+      .scrollable-accounts {
+        grid-template-columns: repeat(6, 180px);
       }
-      .account-photo {
-        width: 120px;
+      .bottom-account-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 660px) {
+      .scrollable-accounts {
+        grid-template-columns: repeat(4, 180px);
+      }
+      .bottom-account-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .contact-fixed-box {
+        max-width: 180px;
+        font-size: 1rem;
+        padding: 140px 22px;
+      }
+    }
+    @media (max-width: 420px) {
+      .scrollable-accounts {
+        grid-template-columns: repeat(2, 180px);
+      }
+      .bottom-account-list {
+        grid-template-columns: 1fr;
+      }
+      .account-photo,
+      .bottom-account-photo,
+      .scroll-account-photo {
+        width: 150px;
         height: 120px;
         border-radius: 16px;
-      }
-      .modal-content {
-        max-width: 90vw;
-        padding: 20px 15px;
-      }
-      .modal-account-photo {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Старі акаунти для вас</h1>
-  <div class="accounts-grid" aria-label="Список акаунтів">
+  <h1>Лімітний запас акаунтів</h1>
 
-    <div class="account-card" tabindex="0">
-      <img src="https://via.placeholder.com/300x300?text=AC1" alt="Акаунт Facebook #1" class="account-photo" data-account="0" />
-      <div class="account-name">Facebook #1</div>
-      <a href="https://facebook.com/oldaccount1" target="_blank" class="account-link" rel="noopener noreferrer">facebook.com/oldaccount1</a>
+  <div class="scrollable-accounts-wrapper" aria-label="Горизонтальний список акаунтів">
+    <div class="scrollable-accounts" id="scrollableAccounts">
+      <!-- Scrollable accounts will appear here -->
     </div>
+  </div>
 
-    <div class="account-card" tabindex="0">
-      <img src="https://via.placeholder.com/300x300?text=AC2" alt="Акаунт Instagram #2" class="account-photo" data-account="1" />
-      <div class="account-name">Instagram #2</div>
-      <a href="https://instagram.com/oldaccount2" target="_blank" class="account-link" rel="noopener noreferrer">instagram.com/oldaccount2</a>
+  <!-- Bottom 4x4 grid accounts section -->
+  <section class="bottom-account-list-section" aria-label="Всі акаунти магазину">
+    <h3>Всі можливі акаунти магазину</h3>
+    <div class="bottom-account-list" id="bottomAccountList">
+      <!-- All accounts will appear here -->
     </div>
+  </section>
 
-    <div class="account-card" tabindex="0">
-      <img src="https://via.placeholder.com/300x300?text=AC3" alt="Акаунт Twitter #3" class="account-photo" data-account="2" />
-      <div class="account-name">Twitter #3</div>
-      <a href="https://twitter.com/oldaccount3" target="_blank" class="account-link" rel="noopener noreferrer">twitter.com/oldaccount3</a>
-    </div>
-
-    <div class="account-card" tabindex="0">
-      <img src="https://via.placeholder.com/300x300?text=AC4" alt="Акаунт TikTok #4" class="account-photo" data-account="3" />
-      <div class="account-name">TikTok #4</div>
-      <a href="https://tiktok.com/@oldaccount4" target="_blank" class="account-link" rel="noopener noreferrer">tiktok.com/@oldaccount4</a>
-    </div>
-
+  <!-- Fixed contact info box bottom right -->
+  <div class="contact-fixed-box" aria-label="Контактна інформація для покупки">
+    Для замовлень і питань:<br />
+    <a href="dimaprooleksander@gmail.com">dimaprooleksander@gmail.com</a><br />
+    <a href="telegram">Telegram user : Mrbuur</a><br />
   </div>
 
   <!-- Modal -->
@@ -261,48 +423,46 @@
       <h2 id="modalTitle" class="modal-title">Зв’язок з автором</h2>
       <div class="contact-section">
         <p>Для замовлень та питань пишіть нам на email: 
-          <a href="mailto:support@oldaccounts.ua">support@oldaccounts.ua</a><br />
-          або телефонуйте: <strong>+38 099 123 45 67</strong>
+          <a href="mailto:dimaprooleksander@gmail.com">dimaprooleksander@gmail.com</a><br />
         </p>
       </div>
-      <div class="modal-accounts-list">
+      <div class="modal-accounts-list" id="modalAccountsList">
         <h4>Усі акаунти в магазині:</h4>
-        <!-- dynamically filled -->
       </div>
     </div>
   </div>
 
   <script>
     (() => {
+      // Example array with 16 accounts so that scrolling and grid with 4x4 have enough data
       const accounts = [
-        {
-          name: "Facebook #1",
-          photo: "https://via.placeholder.com/300x300?text=AC1",
-          link: "https://facebook.com/oldaccount1"
-        },
-        {
-          name: "Instagram #2",
-          photo: "https://via.placeholder.com/300x300?text=AC2",
-          link: "https://instagram.com/oldaccount2"
-        },
-        {
-          name: "Twitter #3",
-          photo: "https://via.placeholder.com/300x300?text=AC3",
-          link: "https://twitter.com/oldaccount3"
-        },
-        {
-          name: "TikTok #4",
-          photo: "https://via.placeholder.com/300x300?text=AC4",
-          link: "https://tiktok.com/@oldaccount4"
-        }
+        {name:"old Roblox ACC",photo:"https://styles.redditmedia.com/t5_2rnsh/styles/communityIcon_zh277xaatqt91.png",link:"https://roblox.com/users/40170253/profile"},
+        {name:"old Roblox ACC",photo:"https://styles.redditmedia.com/t5_2rnsh/styles/communityIcon_zh277xaatqt91.png",link:"https://roblox.com/users/20016553/profile"},
+        {name:"old Roblox ACC",photo:"https://styles.redditmedia.com/t5_2rnsh/styles/communityIcon_zh277xaatqt91.png",link:"https://roblox.com/users/40416193/profile"},
+        {name:"TikTok #4",photo:"",link:""},
+        {name:"YouTube #5",photo:"",link:"h"},
+        {name:"LinkedIn #6",photo:"",link:""},
+        {name:"Reddit #7",photo:"",link:""},
+        {name:"Snapchat #8",photo:"",link:""},
+        {name:"Pinterest #9",photo:"",link:""},
+        {name:"Tumblr #10",photo:"",link:""},
+        {name:"Discord #11",photo:"",link:""},
+        {name:"GitHub #12",photo:"",link:""},
+        {name:"Spotify #13",photo:"",link:""},
+        {name:"Twitch #14",photo:"",link:""},
+        {name:"Steam #15",photo:"",link:""},
+        {name:"Netflix #16",photo:"",link:""}
       ];
 
       const modal = document.querySelector('.modal-overlay');
       const modalCloseBtn = modal.querySelector('.modal-close');
-      const modalAccountsList = modal.querySelector('.modal-accounts-list');
+      const modalAccountsList = document.getElementById('modalAccountsList');
+      const bottomAccountList = document.getElementById('bottomAccountList');
+      const scrollableAccounts = document.getElementById('scrollableAccounts');
 
-      // Fill accounts list inside modal
+      // Populate modal accounts
       function populateModalAccounts() {
+        // Clear existing except heading
         modalAccountsList.innerHTML = "<h4>Усі акаунти в магазині:</h4>";
         accounts.forEach(acc => {
           const item = document.createElement('div');
@@ -323,6 +483,68 @@
         });
       }
 
+      // Populate bottom grid accounts
+      function populateBottomAccounts() {
+        bottomAccountList.innerHTML = '';
+        accounts.forEach(acc => {
+          const item = document.createElement('div');
+          item.className = 'bottom-account-item';
+
+          const img = document.createElement('img');
+          img.src = acc.photo;
+          img.alt = acc.name;
+          img.className = 'bottom-account-photo';
+
+          const name = document.createElement('div');
+          name.className = 'bottom-account-name';
+          name.textContent = acc.name;
+
+          const link = document.createElement('a');
+          link.href = acc.link;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.className = 'bottom-account-link';
+          link.textContent = acc.link.replace(/^https?:\/\//, '');
+
+          item.appendChild(img);
+          item.appendChild(name);
+          item.appendChild(link);
+
+          bottomAccountList.appendChild(item);
+        });
+      }
+
+      // Populate scrollable horizontal accounts (4 rows x 4 columns = 16 accounts in grid but horizontally scroll)
+      function populateScrollableAccounts() {
+        scrollableAccounts.innerHTML = '';
+        accounts.forEach(acc => {
+          const item = document.createElement('div');
+          item.className = 'scroll-account-item';
+
+          const img = document.createElement('img');
+          img.src = acc.photo;
+          img.alt = acc.name;
+          img.className = 'scroll-account-photo';
+
+          const name = document.createElement('div');
+          name.className = 'scroll-account-name';
+          name.textContent = acc.name;
+
+          const link = document.createElement('a');
+          link.href = acc.link;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.className = 'scroll-account-link';
+          link.textContent = acc.link.replace(/^https?:\/\//, '');
+
+          item.appendChild(img);
+          item.appendChild(name);
+          item.appendChild(link);
+
+          scrollableAccounts.appendChild(item);
+        });
+      }
+
       // Show modal
       function openModal() {
         populateModalAccounts();
@@ -338,11 +560,20 @@
       }
 
       // Click on photo opens modal
-      document.querySelectorAll('.account-photo').forEach(img => {
-        img.addEventListener('click', openModal);
-      });
+      function addPhotoClickListeners() {
+        document.querySelectorAll('.account-photo').forEach(img => {
+          img.addEventListener('click', openModal);
+        });
+      }
 
-      // Close button click
+      // Initial population and listeners
+      function init() {
+        populateBottomAccounts();
+        populateScrollableAccounts();
+        addPhotoClickListeners();
+      }
+
+      // Close modal button
       modalCloseBtn.addEventListener('click', closeModal);
 
       // Close modal if click outside content
@@ -350,12 +581,15 @@
         if (e.target === modal) closeModal();
       });
 
-      // Close with Escape key
+      // Close modal with Escape key
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
           closeModal();
         }
       });
+
+      // Run init on page load
+      window.addEventListener('DOMContentLoaded', init);
     })();
   </script>
 
