@@ -1,205 +1,163 @@
-/* Загальні настройки */
+/* Reset & base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 body {
-  font-family: 'Montserrat', sans-serif;
-  background: #f9f9f9;
-  color: #333;
-  line-height: 1.6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  color: #222;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
 }
 
-/* Контейнер для вмісту */
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Хедер */
-.header {
-  background-color: #1e1e2f;
-  padding: 15px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.logo {
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.8rem;
+/* Page title */
+h1 {
+  margin-bottom: 30px;
+  color: #3b3f72;
+  font-weight: 900;
+  font-size: 3rem;
+  text-shadow: 2px 2px 4px rgba(59,63,114,0.4);
   letter-spacing: 2px;
-  text-transform: uppercase;
+  text-align: center;
 }
-.nav {
-  float: right;
+
+/* Grid container */
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 50px;
 }
-.nav-link {
-  color: #bbb;
+
+/* Card */
+.account-card {
+  background: #ffffffcc;
+  border-radius: 24px;
+  box-shadow: 0 12px 25px rgba(59,63,114,0.12);
+  padding: 20px 18px 25px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+  user-select: none;
+  backdrop-filter: saturate(180%) blur(10px);
+  border: 2px solid transparent;
+}
+.account-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(59,63,114,0.25);
+  border-color: #5c5fc9;
+}
+
+/* Clickable photo */
+.account-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 24px;
+  object-fit: cover;
+  margin: 0 auto 14px;
+  box-shadow: 0 8px 18px rgba(95,95,201,0.25);
+  cursor: pointer;
+  transition: box-shadow 0.4s ease;
+  border: 3px solid transparent;
+}
+.account-photo:hover {
+  box-shadow: 0 12px 30px rgba(92,95,201,0.55);
+  border-color: #5c5fc9;
+}
+
+/* Account name */
+.account-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #43478f;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px rgba(92,95,201,0.2);
+}
+
+/* Account link */
+.account-link {
+  font-size: 1rem;
+  color: #6067a8;
   text-decoration: none;
-  font-weight: 600;
-  margin-left: 25px;
+  word-break: break-word;
+  display: inline-block;
+  max-width: 190px;
   transition: color 0.3s ease;
 }
-.nav-link:hover {
-  color: #ff6f61;
+.account-link:hover {
+  color: #5c5fc9;
+  text-decoration: underline;
 }
 
-/* Очищення float */
-.header .container::after {
-  content: "";
-  display: table;
-  clear: both;
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(15, 15, 40, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  padding: 25px;
+  backdrop-filter: blur(8px);
 }
-
-/* Герой секція */
-.hero {
-  background: linear-gradient(135deg, #ff6f61 0%, #de4313 100%);
-  color: #fff;
-  padding: 80px 0 100px;
-  text-align: center;
+.modal-overlay.active {
+  display: flex;
 }
-.hero h2 {
-  font-size: 2.8rem;
-  margin-bottom: 15px;
-  font-weight: 700;
-  text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
-}
-.hero p {
-  font-size: 1.3rem;
-  margin-bottom: 30px;
-  color: #fbeae8cc;
-}
-.btn-primary {
-  background-color: #fff;
-  color: #de4313;
-  padding: 14px 30px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(255,111,97,0.5);
-  transition: background-color 0.3s ease, color 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-}
-.btn-primary:hover {
-  background-color: #ff6f61;
-  color: white;
-  box-shadow: 0 6px 20px rgba(255,111,97,0.7);
-}
-
-/* Секція Продуктів */
-.products-section {
+.modal-content {
   background: #fff;
-  padding: 60px 0 80px;
-  text-align: center;
+  border-radius: 24px;
+  max-width: 530px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(59,63,114,0.35);
+  padding: 40px 35px 35px;
+  position: relative;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.section-title {
-  font-size: 2.5rem;
-  margin-bottom: 40px;
-  font-weight: 700;
-  color: #de4313;
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #43478f;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.25s ease;
+}
+.modal-close:hover {
+  color: #5c5fc9;
+}
+.modal-title {
+  font-size: 2rem;
+  margin-bottom: 22px;
+  font-weight: 900;
+  color: #43478f;
+  text-align: center;
   letter-spacing: 1.5px;
 }
 
-/* Сітка продуктів */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-  gap: 30px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-/* Картка продукту */
-.product-card {
-  background-color: #fff4f2;
-  border-radius: 15px;
-  box-shadow: 0 8px 15px rgba(222,67,19,0.12);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 25px rgba(222,67,19,0.25);
-}
-.product-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-}
-.product-title {
-  font-weight: 700;
-  color: #de4313;
-  font-size: 1.3rem;
-  margin: 15px 20px 10px;
-}
-.product-description {
-  color: #5a5a5a;
-  font-size: 1rem;
-  margin: 0 20px 20px;
-  flex-grow: 1;
-}
-.product-footer {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #ffad99;
-}
-.product-price {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #de4313;
-}
-.btn-secondary {
-  background-color: #de4313;
-  color: white;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 25px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(222,67,19,0.6);
-  transition: background-color 0.3s ease;
-}
-.btn-secondary:hover {
-  background-color: #ff6f61;
-  box-shadow: 0 5px 20px rgba(255,111,97,0.8);
-}
-
-/* Про нас */
-.about-section {
-  background-color: #fff;
-  padding: 50px 0 70px;
-  color: #444;
-  max-width: 900px;
-  margin: 0 auto 60px;
-  text-align: center;
-  font-size: 1.15rem;
-  line-height: 1.6;
-}
-
-/* Контактна секція */
 .contact-section {
-  background: #f3f3f3;
-  padding: 50px 0 70px;
-  text-align: center;
-  color: #555;
+  margin-bottom: 32px;
   font-size: 1.1rem;
+  color: #555977;
+  line-height: 1.65;
+  text-align: center;
 }
 .contact-section a {
-  color: #de4313;
+  color: #5c5fc9;
   text-decoration: none;
   font-weight: 600;
 }
@@ -207,36 +165,163 @@ body {
   text-decoration: underline;
 }
 
-/* Футер */
-.footer {
-  background-color: #1e1e2f;
-  color: #aaa;
-  text-align: center;
-  padding: 20px 0;
-  font-size: 0.9rem;
+/* Accounts list inside modal */
+.modal-accounts-list {
+  max-height: 340px;
+  overflow-y: auto;
+  border-top: 1px solid #e2e4f2;
+  padding-top: 20px;
+}
+.modal-accounts-list h4 {
+  margin-bottom: 16px;
+  font-size: 1.35rem;
+  color: #43478f;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.modal-account-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  cursor: default;
+}
+.modal-account-photo {
+  width: 55px;
+  height: 55px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(92,95,201,0.25);
+}
+.modal-account-info {
+  flex-grow: 1;
+  text-align: left;
+  font-size: 1rem;
+  color: #61659c;
+}
+.modal-account-info a {
+  font-weight: 700;
+  color: #5c5fc9;
+  text-decoration: none;
+  word-break: break-word;
+  transition: color 0.3s ease;
+}
+.modal-account-info a:hover {
+  color: #43478f;
+  text-decoration: underline;
 }
 
-/* Адаптивність */
-@media (max-width: 768px) {
-  .nav {
-    float: none;
-    text-align: center;
-    margin-top: 10px;
+/* Scrollbar styling */
+.modal-accounts-list::-webkit-scrollbar {
+  width: 9px;
+}
+.modal-accounts-list::-webkit-scrollbar-thumb {
+  background-color: #5c5fc9aa;
+  border-radius: 5px;
+}
+.modal-accounts-list::-webkit-scrollbar-track {
+  background: #f5f6ff;
+}
+
+/* Bottom account list section */
+.bottom-account-list-section {
+  margin-top: 65px;
+  width: 100%;
+  max-width: 1000px;
+  background: #fefeff;
+  border-radius: 28px;
+  padding: 30px 38px;
+  box-shadow: 0 15px 30px rgba(59,63,114,0.15);
+}
+.bottom-account-list-section h3 {
+  font-size: 2rem;
+  color: #43478f;
+  margin-bottom: 30px;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.bottom-account-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+.bottom-account-item {
+  width: 220px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 14px 30px rgba(59,63,114,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 22px 26px;
+  user-select: none;
+  transition: box-shadow 0.4s ease, transform 0.3s ease;
+}
+.bottom-account-item:hover {
+  box-shadow: 0 24px 50px rgba(59,63,114,0.25);
+  transform: translateY(-8px);
+}
+.bottom-account-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
+  object-fit: cover;
+  margin-bottom: 14px;
+  box-shadow: 0 10px 25px rgba(92,95,201,0.3);
+  transition: box-shadow 0.3s ease;
+}
+.bottom-account-photo:hover {
+  box-shadow: 0 16px 40px rgba(92,95,201,0.6);
+}
+.bottom-account-name {
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: #3b3f72;
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.bottom-account-link {
+  font-size: 1rem;
+  color: #6067a8;
+  text-decoration: none;
+  word-break: break-word;
+  text-align: center;
+  display: inline-block;
+  max-width: 190px;
+  transition: color 0.3s ease;
+}
+.bottom-account-link:hover {
+  color: #5c5fc9;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .accounts-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
-  .nav-link {
-    margin-left: 15px;
-    font-size: 0.9rem;
+  .account-photo, .bottom-account-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 18px;
   }
-  .hero h2 {
-    font-size: 2rem;
+  .modal-content {
+    max-width: 90vw;
+    padding: 25px 20px;
   }
-  .hero p {
-    font-size: 1rem;
+  .modal-account-photo {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
   }
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
-  .product-card {
-    height: auto;
+  .bottom-account-item {
+    width: 150px;
+    padding: 14px 16px 20px;
   }
 }
+
+/* Dark mode */

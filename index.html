@@ -3,90 +3,362 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Старі акаунти - Інтернет Магазин</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <title>Старі акаунти - Магазин</title>
+  <style>
+    /* Reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #de4313;
+    }
+    /* Grid container */
+    .accounts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap: 25px;
+      width: 100%;
+      max-width: 900px;
+    }
+    /* Card */
+    .account-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 6px 12px rgba(222,67,19,0.15);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: default;
+      user-select: none;
+    }
+    .account-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(222,67,19,0.3);
+    }
+    /* The clickable photo */
+    .account-photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 20px;
+      object-fit: cover;
+      margin: 0 auto 12px;
+      box-shadow: 0 4px 10px rgba(222,67,19,0.2);
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+    .account-photo:hover {
+      box-shadow: 0 8px 22px rgba(222,67,19,0.5);
+    }
+    /* Account name */
+    .account-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #de4313;
+      margin-bottom: 6px;
+    }
+    /* Account link */
+    .account-link {
+      font-size: 0.9rem;
+      color: #555;
+      text-decoration: none;
+      word-break: break-word;
+      display: inline-block;
+      max-width: 180px;
+    }
+    .account-link:hover {
+      color: #de4313;
+      text-decoration: underline;
+    }
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 18px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 15px 40px rgba(222,67,19,0.4);
+      padding: 30px 25px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #de4313;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+    .modal-close:hover {
+      color: #ff6f61;
+    }
+    .modal-title {
+      font-size: 1.7rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: #de4313;
+      text-align: center;
+    }
+    .contact-section {
+      margin-bottom: 25px;
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .contact-section a {
+      color: #de4313;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .contact-section a:hover {
+      text-decoration: underline;
+    }
+    /* Accounts list inside modal */
+    .modal-accounts-list {
+      max-height: 320px;
+      overflow-y: auto;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+    }
+    .modal-accounts-list h4 {
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+      color: #de4313;
+      text-align: left;
+      font-weight: 700;
+    }
+    .modal-account-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      cursor: default;
+    }
+    .modal-account-photo {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 3px 8px rgba(222,67,19,0.25);
+    }
+    .modal-account-info {
+      flex-grow: 1;
+      text-align: left;
+      font-size: 1rem;
+      color: #555;
+    }
+    .modal-account-info a {
+      font-weight: 600;
+      color: #de4313;
+      text-decoration: none;
+      word-break: break-word;
+    }
+    .modal-account-info a:hover {
+      text-decoration: underline;
+    }
+
+    /* Scrollbar styling */
+    .modal-accounts-list::-webkit-scrollbar {
+      width: 8px;
+    }
+    .modal-accounts-list::-webkit-scrollbar-thumb {
+      background-color: #de4313aa;
+      border-radius: 4px;
+    }
+    .modal-accounts-list::-webkit-scrollbar-track {
+      background: #f0f2f5;
+    }
+
+    /* Responsive */
+    @media(max-width: 520px) {
+      .accounts-grid {
+        grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+      }
+      .account-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 16px;
+      }
+      .modal-content {
+        max-width: 90vw;
+        padding: 20px 15px;
+      }
+      .modal-account-photo {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <h1 class="logo">OldAccounts</h1>
-      <nav class="nav">
-        <a href="#products" class="nav-link">Акаунти</a>
-        <a href="#about" class="nav-link">Про нас</a>
-        <a href="#contact" class="nav-link">Контакти</a>
-      </nav>
+  <h1>Старі акаунти для вас</h1>
+  <div class="accounts-grid" aria-label="Список акаунтів">
+
+    <div class="account-card" tabindex="0">
+      <img src="https://via.placeholder.com/300x300?text=AC1" alt="Акаунт Facebook #1" class="account-photo" data-account="0" />
+      <div class="account-name">Facebook #1</div>
+      <a href="https://facebook.com/oldaccount1" target="_blank" class="account-link" rel="noopener noreferrer">facebook.com/oldaccount1</a>
     </div>
-  </header>
 
-  <section class="hero">
-    <div class="container hero-content">
-      <h2>Купуйте якісні старі акаунти зі знижкою</h2>
-      <p>Найкращий вибір перевірених акаунтів для ваших потреб. Швидка доставка та підтримка клієнтів.</p>
-      <a href="#products" class="btn-primary">Переглянути акаунти</a>
+    <div class="account-card" tabindex="0">
+      <img src="https://via.placeholder.com/300x300?text=AC2" alt="Акаунт Instagram #2" class="account-photo" data-account="1" />
+      <div class="account-name">Instagram #2</div>
+      <a href="https://instagram.com/oldaccount2" target="_blank" class="account-link" rel="noopener noreferrer">instagram.com/oldaccount2</a>
     </div>
-  </section>
 
-  <section id="products" class="products-section">
-    <div class="container">
-      <h3 class="section-title">Наші акаунти</h3>
-      <div class="products-grid">
+    <div class="account-card" tabindex="0">
+      <img src="https://via.placeholder.com/300x300?text=AC3" alt="Акаунт Twitter #3" class="account-photo" data-account="2" />
+      <div class="account-name">Twitter #3</div>
+      <a href="https://twitter.com/oldaccount3" target="_blank" class="account-link" rel="noopener noreferrer">twitter.com/oldaccount3</a>
+    </div>
 
-        <article class="product-card">
-          <img src="https://via.placeholder.com/300x180?text=Аккаунт+1" alt="Старий акаунт 1" class="product-img" />
-          <h4 class="product-title">Акаунт Facebook #1</h4>
-          <p class="product-description">Перевірений акаунт з друзями, гарна історія та активність.</p>
-          <div class="product-footer">
-            <span class="product-price">450 грн</span>
-            <button class="btn-secondary">Купити</button>
-          </div>
-        </article>
+    <div class="account-card" tabindex="0">
+      <img src="https://via.placeholder.com/300x300?text=AC4" alt="Акаунт TikTok #4" class="account-photo" data-account="3" />
+      <div class="account-name">TikTok #4</div>
+      <a href="https://tiktok.com/@oldaccount4" target="_blank" class="account-link" rel="noopener noreferrer">tiktok.com/@oldaccount4</a>
+    </div>
 
-        <article class="product-card">
-          <img src="https://via.placeholder.com/300x180?text=Аккаунт+2" alt="Старий акаунт 2" class="product-img" />
-          <h4 class="product-title">Акаунт Instagram #2</h4>
-          <p class="product-description">З хорошою кількістю підписників, ідеально підходить для просування.</p>
-          <div class="product-footer">
-            <span class="product-price">600 грн</span>
-            <button class="btn-secondary">Купити</button>
-          </div>
-        </article>
+  </div>
 
-        <article class="product-card">
-          <img src="https://via.placeholder.com/300x180?text=Аккаунт+3" alt="Старий акаунт 3" class="product-img" />
-          <h4 class="product-title">Акаунт Twitter #3</h4>
-          <p class="product-description">Акаунт з багатьма підписниками та архівом цікавинок.</p>
-          <div class="product-footer">
-            <span class="product-price">500 грн</span>
-            <button class="btn-secondary">Купити</button>
-          </div>
-        </article>
-
+  <!-- Modal -->
+  <div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Закрити">&times;</button>
+      <h2 id="modalTitle" class="modal-title">Зв’язок з автором</h2>
+      <div class="contact-section">
+        <p>Для замовлень та питань пишіть нам на email: 
+          <a href="mailto:support@oldaccounts.ua">support@oldaccounts.ua</a><br />
+          або телефонуйте: <strong>+38 099 123 45 67</strong>
+        </p>
+      </div>
+      <div class="modal-accounts-list">
+        <h4>Усі акаунти в магазині:</h4>
+        <!-- dynamically filled -->
       </div>
     </div>
-  </section>
+  </div>
 
-  <section id="about" class="about-section">
-    <div class="container">
-      <h3 class="section-title">Про нас</h3>
-      <p>Ми спеціалізуємося на продажі перевірених старих акаунтів для різних соціальних мереж. Всі акаунти проходять ретельну перевірку, щоб ви отримали якісний продукт.</p>
-    </div>
-  </section>
+  <script>
+    (() => {
+      const accounts = [
+        {
+          name: "Facebook #1",
+          photo: "https://via.placeholder.com/300x300?text=AC1",
+          link: "https://facebook.com/oldaccount1"
+        },
+        {
+          name: "Instagram #2",
+          photo: "https://via.placeholder.com/300x300?text=AC2",
+          link: "https://instagram.com/oldaccount2"
+        },
+        {
+          name: "Twitter #3",
+          photo: "https://via.placeholder.com/300x300?text=AC3",
+          link: "https://twitter.com/oldaccount3"
+        },
+        {
+          name: "TikTok #4",
+          photo: "https://via.placeholder.com/300x300?text=AC4",
+          link: "https://tiktok.com/@oldaccount4"
+        }
+      ];
 
-  <section id="contact" class="contact-section">
-    <div class="container">
-      <h3 class="section-title">Контакти</h3>
-      <p>Пишіть нам на email: <a href="mailto:support@oldaccounts.ua">support@oldaccounts.ua</a></p>
-      <p>Телефон: +38 099 123 45 67</p>
-      <p>Адреса: м. Київ, вул. Петрівська, 12</p>
-    </div>
-  </section>
+      const modal = document.querySelector('.modal-overlay');
+      const modalCloseBtn = modal.querySelector('.modal-close');
+      const modalAccountsList = modal.querySelector('.modal-accounts-list');
 
-  <footer class="footer">
-    <div class="container">
-      <p>© 2024 OldAccounts. Всі права захищені.</p>
-    </div>
-  </footer>
+      // Fill accounts list inside modal
+      function populateModalAccounts() {
+        modalAccountsList.innerHTML = "<h4>Усі акаунти в магазині:</h4>";
+        accounts.forEach(acc => {
+          const item = document.createElement('div');
+          item.className = 'modal-account-item';
+
+          const img = document.createElement('img');
+          img.src = acc.photo;
+          img.alt = acc.name;
+          img.className = 'modal-account-photo';
+
+          const info = document.createElement('div');
+          info.className = 'modal-account-info';
+          info.innerHTML = `<strong>${acc.name}</strong><br><a href="${acc.link}" target="_blank" rel="noopener noreferrer">${acc.link.replace(/^https?:\/\//, '')}</a>`;
+
+          item.appendChild(img);
+          item.appendChild(info);
+          modalAccountsList.appendChild(item);
+        });
+      }
+
+      // Show modal
+      function openModal() {
+        populateModalAccounts();
+        modal.classList.add('active');
+        modal.focus();
+        document.body.style.overflow = 'hidden'; // prevent background scroll
+      }
+
+      // Close modal
+      function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      // Click on photo opens modal
+      document.querySelectorAll('.account-photo').forEach(img => {
+        img.addEventListener('click', openModal);
+      });
+
+      // Close button click
+      modalCloseBtn.addEventListener('click', closeModal);
+
+      // Close modal if click outside content
+      modal.addEventListener('click', e => {
+        if (e.target === modal) closeModal();
+      });
+
+      // Close with Escape key
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
 
